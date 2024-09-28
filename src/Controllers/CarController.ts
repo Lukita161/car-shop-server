@@ -21,9 +21,6 @@ export class CarController {
 
   static getCarById = async (req: Request, res: Response) => {
     const { id } = req.params
-    if (!id) {
-      return res.status(400).send('Falta el parametro ID')
-    };
     const car = await CarModel.findById(id)
     if (!car) {
       return res.status(404).send('No se ha encontrado nada')
@@ -32,14 +29,33 @@ export class CarController {
   }
   static deleteCar = async(req: Request, res: Response)=> {
     const { id } = req.params
-    if(!id) {
-      return res.status(400).send('Falta el parametro ID')
-    }
     const car = await CarModel.findById(id)
     if(!car) {
       return res.status(400).send('Auto no encontrado')
     }
     await car.deleteOne()
     res.send('Eliminado correctamente')
+  }
+  static modifyTheCar = async(req: Request, res:Response) => {
+    const { id } = req.params
+    if(req.body.length < 0) {
+      return res.status(400).send('No puedes enviar una solicitud vacia')
+    }
+    const car = await CarModel.findById(id)
+    if(!car) {
+      return res.status(404).send('No encontramos el vehiculo')
+    }
+    await car.updateOne(req.body)
+    res.send('Producto actualizado')
+  }
+  static updateAvailability = async(req:Request, res:Response) => {
+    const { id } = req.params
+    const car = await CarModel.findById(id)
+    if(!car) {
+      return res.status(404).send('Producto no encontrado')
+    }
+    car.availability = !car.availability
+    await car.save()
+    res.send('Disponibilidad actualizada')
   }
 }
