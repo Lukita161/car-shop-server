@@ -4,7 +4,7 @@ type CarI = Document & {
     carName: string,
     brand: string,
     description: string,
-    image: string,
+    image: string[],
     price: number,
     availability: boolean
 }
@@ -22,10 +22,10 @@ const CarSchema : Schema = new Schema<CarI>({
         type: String,
         required: true
     },
-    image: {
+    image: [{
         type: String,
         required: true
-    },
+    }],
     price: {
         type: Number,
         required: true,

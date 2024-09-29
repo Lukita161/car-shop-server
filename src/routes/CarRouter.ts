@@ -3,8 +3,10 @@ import { body, param } from 'express-validator'
 import { CarController } from '../Controllers/CarController'
 import { handleErrors } from '../midleware/validation'
 import { IsValidId } from '../midleware/IsValidId'
+import { ValidateUserSignIn } from '../midleware/ValidatingToken'
 
 const router = Router()
+router.use(ValidateUserSignIn)
 router.post(
   '/',
   body('carName').notEmpty().withMessage('El campo es obligatorio'),
