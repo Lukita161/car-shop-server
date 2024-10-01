@@ -5,3 +5,9 @@ export type AdminToken = JwtPayload & {
     iat: number,
     exp: number
 }
+
+export type AdminCredentials = {
+    email: string,
+    password: string,
+    userName: string
+}

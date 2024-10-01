@@ -4,6 +4,7 @@ type AdminType = Document & {
     email: string,
     password: string,
     userName: string,
+    isTheOwner: boolean
 }
 
 const AdminSchema : Schema = new Schema<AdminType>({
@@ -19,6 +20,11 @@ const AdminSchema : Schema = new Schema<AdminType>({
     userName: {
         type: String,
         required: true
+    },
+    isTheOwner: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 
