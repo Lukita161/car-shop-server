@@ -5,6 +5,15 @@ import jwt from 'jsonwebtoken'
 
 export class AdminController {
     static createAdmin = async(req:Request, res:Response)=> {
+        const token = req.headers.authorization
+        const bearerToken = token.split(" ")[1]
+        const comparedToken = jwt.verify(bearerToken, process.env.SECRET_PASS_FOR_JWT)
+        // Evaluamos si el email del token NO es el email del admin, y tiramos un error
+        // @ts-ignore
+        if(comparedToken.email !== 'admin@gmail.com') {
+            return res.status(401).send('No tienes permiso para crear cuentas')
+        }
+        
         const admin = new AdminModel(req.body)
         if(!admin) {
             return res.status(500).send('No pudimos procesar tu solicitud')
@@ -23,7 +32,7 @@ export class AdminController {
         if(!admin) {
             return res.status(404).send('Usuario no encontrado')
         }
-        const generateToken = jwt.sign({email: admin.email}, 'secretpass', {expiresIn: '24hrs'})
+        const generateToken = jwt.sign({email: admin.email}, process.env.SECRET_PASS_FOR_JWT, {expiresIn: '24hrs'})
         res.send(generateToken)
     }
 }

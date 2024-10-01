@@ -15,7 +15,7 @@ export const ValidateUserSignIn = (
     if (bearerToken === undefined) {
       return res.status(401).send("No tienes acceso a esta funcion");
     }
-    const result = jwt.verify(bearerToken, "secretpass");
+    const result = jwt.verify(bearerToken, process.env.SECRET_PASS_FOR_JWT);
     if (!result) {
         res.status(401).send("No tienes acceso para utilizar esta funcion");
     }

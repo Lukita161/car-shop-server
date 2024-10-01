@@ -27,6 +27,15 @@ export class CarController {
     }
     res.json(car)
   }
+  static getCarByBrand = async (req:Request, res:Response) => {
+    const { brand } = req.params
+    const cars = await CarModel.find({brand})
+    if(cars.length===0) {
+      return res.status(400).send('No hemos encontrado nada')
+    }
+    
+    res.json(cars)
+  }
   static deleteCar = async(req: Request, res: Response)=> {
     const { id } = req.params
     const car = await CarModel.findById(id)

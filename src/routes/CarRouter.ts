@@ -4,13 +4,20 @@ import { CarController } from '../Controllers/CarController'
 import { handleErrors } from '../midleware/validation'
 import { IsValidId } from '../midleware/IsValidId'
 import { ValidateUserSignIn } from '../midleware/ValidatingToken'
+import { brand } from '../Models/Car'
 
 const router = Router()
 router.use(ValidateUserSignIn)
+
 router.post(
   '/',
   body('carName').notEmpty().withMessage('El campo es obligatorio'),
-  body('brand').notEmpty().withMessage('El campo es obligatorio'),
+  body('brand').custom(value => {
+    if(!brand.includes(value)) {
+      throw new Error('The brand does exist in the DB')
+    }
+    return true
+  }).notEmpty().withMessage('El campo es obligatorio'),
   body('price').notEmpty().withMessage('El campo es obligatorio'),
   body('description').notEmpty().withMessage('El campo es obligatorio'),
   body('image').notEmpty().withMessage('El campo es obligatorio'),
@@ -20,12 +27,24 @@ router.post(
 
 router.get('/', CarController.getAllCars)
 
-router.use(IsValidId)
 
 router.get(
   '/car/:id',
+  param('id').isMongoId().withMessage('Id no valido'),
+  IsValidId,
   handleErrors,
   CarController.getCarById
+)
+
+router.get('/car/filters/:brand',
+  param('brand').custom(value => {
+    if(!brand.includes(value)) {
+      throw new Error('The brand does exist in the DB')
+    }
+    return true
+  }).notEmpty().withMessage('El parametro es obligatorio'),
+  handleErrors,
+  CarController.getCarByBrand
 )
 
 router.put('/car/:id',
@@ -35,17 +54,21 @@ router.put('/car/:id',
   body('price').notEmpty().withMessage('El campo es obligatorio'),
   body('description').notEmpty().withMessage('El campo es obligatorio'),
   body('image').notEmpty().withMessage('El campo es obligatorio'),
+  IsValidId,
   handleErrors,
   CarController.modifyTheCar
 )
 
 router.patch('/car/:id',
+  param('id').isMongoId().withMessage('Id requerido'),
+  IsValidId,
   handleErrors,
   CarController.updateAvailability
 )
 
 router.delete('/car/:id',
   param('id').isMongoId().withMessage('Campo requerido'),
+  IsValidId,
   handleErrors,
   CarController.deleteCar
 )

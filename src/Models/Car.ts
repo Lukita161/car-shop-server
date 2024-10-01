@@ -9,6 +9,8 @@ type CarI = Document & {
     availability: boolean
 }
 
+export const brand = ['volkswagen', 'ford', 'audi', 'bmw', 'renault', 'chevrolet']
+
 const CarSchema : Schema = new Schema<CarI>({
     carName: {
         type: String,
@@ -16,7 +18,10 @@ const CarSchema : Schema = new Schema<CarI>({
     },
     brand: {
         type: String,
-        required: true
+        required: true,
+        enum: brand,
+        lowercase: true,
+        trim: true
     },
     description: {
         type: String,
