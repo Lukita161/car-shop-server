@@ -36,6 +36,17 @@ router.get(
   CarController.getCarById
 )
 
+router.get('/car/pages/:page',
+  param('page').notEmpty().withMessage('El numero de pagina es obligatorio'),
+  handleErrors,
+  CarController.getCars
+)
+
+router.get('/topCars',
+  handleErrors,
+  CarController.getTopCars
+)
+
 router.get('/car/filters/:brand',
   param('brand').custom(value => {
     if(!brand.includes(value)) {
@@ -71,6 +82,11 @@ router.delete('/car/:id',
   IsValidId,
   handleErrors,
   CarController.deleteCar
+)
+
+router.get('/car',
+  handleErrors,
+  CarController.countCars
 )
 
 export default router

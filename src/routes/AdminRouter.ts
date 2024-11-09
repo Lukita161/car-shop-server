@@ -14,6 +14,16 @@ AdminRouter.post('/register',
     ValidateUserSignIn,
     AdminController.createAdmin
 )
+AdminRouter.get('/',
+    handleErrors,
+    ValidateUserSignIn,
+    AdminController.getAdminInfo
+)
+AdminRouter.get('/get-admins',
+    handleErrors,
+    ValidateUserSignIn,
+    AdminController.getAllAdminsInfo
+)
 AdminRouter.post('/login',
     body('email').notEmpty().withMessage('El campo no puede ir vacio').isEmail().withMessage('Tiene que ser un email'),
     body('password').notEmpty().withMessage('La contraseña es obligatoria'),
@@ -24,7 +34,6 @@ AdminRouter.post('/login',
 AdminRouter.put('/change-credentials/:userId',
     param('userId').isMongoId().withMessage('Id no valido').notEmpty().withMessage('No puede ir vacio'),
     body('email').notEmpty().withMessage('El campo no puede ir vacio').isEmail().withMessage('Tiene que ser un email'),
-    body('password').notEmpty().withMessage('La contraseña es obligatoria'),
     body('userName').notEmpty().withMessage('El nombre de usuario es obligatorio'),
     handleErrors,
     ValidateUserSignIn,

@@ -9,7 +9,7 @@ type CarI = Document & {
     availability: boolean
 }
 
-export const brand = ['volkswagen', 'ford', 'audi', 'bmw', 'renault', 'chevrolet']
+export const brand = ['volkswagen', "kia" , 'ford', 'audi', 'bmw', 'renault', 'chevrolet']
 
 const CarSchema : Schema = new Schema<CarI>({
     carName: {
@@ -29,7 +29,7 @@ const CarSchema : Schema = new Schema<CarI>({
     },
     image: [{
         type: String,
-        required: true
+        required: false
     }],
     price: {
         type: Number,

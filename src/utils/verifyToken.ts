@@ -3,12 +3,13 @@ import jwt from 'jsonwebtoken'
 import { AdminCredentials } from "../types"
 import { AdminModel } from "../Models/Admin"
 
-export const verifyToken = (req:Request, userEmail: AdminCredentials['email'])=> {
+export const verifyToken = (req:Request, userId: AdminCredentials['id'])=> {
     const token = req.headers.authorization
     const bearerToken = token.split(" ")[1]
     const result = jwt.verify(bearerToken, process.env.SECRET_PASS_FOR_JWT)
+
     // @ts-ignore
-    if(result.email !== userEmail) {
+    if(result.id !== userId) {
         //throw new Error('No tienes acceso a esta funcion')
         return false
     }
@@ -20,6 +21,6 @@ export const isTheOwner = async(req:Request)=> {
     const bearerToken = token.split(" ")[1]
     const result = jwt.verify(bearerToken, process.env.SECRET_PASS_FOR_JWT)
     // @ts-ignore
-    const user = await AdminModel.findOne({email: result.email})
+    const user = await AdminModel.findById(result.id)
     return user.isTheOwner ? true : false
 }
