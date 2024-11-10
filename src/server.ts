@@ -14,5 +14,7 @@ app.use(morgan('dev'))
 
 app.use('/api/cars', CarRouter)
 app.use('/admin', AdminRouter)
-
+app.get('/healt', (req, res)=> {
+    res.status(200).send('Server is running')
+})
 export default app

@@ -7,7 +7,7 @@
         "moduleResolution": "NodeNext",
         "module": "NodeNext",
         "strict": false,
-        "sourceMap": true,
+        "sourceMap": false,
         "esModuleInterop": true,
         "declaration": true,
         "skipLibCheck": true,
