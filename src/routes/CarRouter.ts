@@ -7,7 +7,7 @@ import { ValidateUserSignIn } from '../midleware/ValidatingToken'
 import { brand } from '../Models/Car'
 
 const router = Router()
-router.use(ValidateUserSignIn)
+//router.use(ValidateUserSignIn)
 
 router.post(
   '/',
