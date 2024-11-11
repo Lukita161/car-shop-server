@@ -5,6 +5,7 @@ import connectDb from './db'
 import CarRouter from './routes/CarRouter'
 import AdminRouter from './routes/AdminRouter'
 import { corsOptions } from './config/corsConfig'
+import publicRouter from './routes/CarPublicRouter'
 
 connectDb()
 const app = express()
@@ -17,4 +18,5 @@ app.use('/admin', AdminRouter)
 app.get('/healt', (req, res)=> {
     res.status(200).json({data: 'Server is running'})
 })
+app.use('/public/cars', publicRouter)
 export default app
