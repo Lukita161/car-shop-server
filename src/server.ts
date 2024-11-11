@@ -18,5 +18,5 @@ app.use('/admin', AdminRouter)
 app.get('/healt', (req, res)=> {
     res.status(200).json({data: 'Server is running'})
 })
-app.use('/public/cars', publicRouter)
+app.use('/api/public/cars', publicRouter)
 export default app
